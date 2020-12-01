@@ -1,0 +1,14 @@
+package gmail.cassiompf.pomodorolite;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class CountDownTimer extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_count_down_timer);
+    }
+}
