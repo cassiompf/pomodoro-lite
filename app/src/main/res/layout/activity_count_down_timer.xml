@@ -9,7 +9,7 @@
     tools:context=".CountDownTimer">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/cdt_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -19,7 +19,7 @@
         android:textSize="32dp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/cdt_textView2"
         android:layout_width="297dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
@@ -29,7 +29,7 @@
         android:textSize="32dp" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/cdt_textView3"
         android:layout_width="339dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -38,7 +38,7 @@
         android:textSize="16dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/cdt_button"
         android:layout_width="230dp"
         android:layout_height="60dp"
         android:onClick="clickCancel"

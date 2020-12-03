@@ -9,10 +9,10 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/main_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="Informe o tempo em minutos para iniciar o pomodoro."
         android:textColor="#303030"
@@ -23,17 +23,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNumberSigned"
+        android:id="@+id/main_editTextNumberSigned"
         android:layout_width="289dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:ems="10"
+        android:gravity="center"
         android:inputType="numberSigned"
         android:text="25"
         android:textSize="22dp" />
 
+    <TextView
+        android:id="@+id/main_textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="O valor deve ser maior que 0 e menor ou igual a 60." />
+
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/main_switch"
         android:layout_width="314dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -44,10 +52,10 @@
         android:textSize="22dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/main_button"
         android:layout_width="230dp"
         android:layout_height="60dp"
-        android:onClick="enviarDados"
+        android:onClick="sendValues"
         android:text="Iniciar"
         android:textSize="22dp"
         app:backgroundTint="#00A434" />

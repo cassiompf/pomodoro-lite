@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PomodoroLite</string>
+    <string name="name_notification">Pomodoro Finalizado</string>
+    <string name="desc_notification">Receber notificações quando um pomodoro for finalizado!</string>
 </resources>

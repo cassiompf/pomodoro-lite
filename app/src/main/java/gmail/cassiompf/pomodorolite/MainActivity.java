@@ -4,25 +4,36 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import gmail.cassiompf.pomodorolite.objects.MinMaxFilter;
+
 public class MainActivity extends AppCompatActivity {
+
+    private EditText editTextNumberSigned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        editTextNumberSigned = findViewById(R.id.main_editTextNumberSigned);
+        editTextNumberSigned.setFilters(new InputFilter[]{new MinMaxFilter("1", "60", editTextNumberSigned)});
     }
 
-    public void enviarDados(View view) {
+    public void sendValues(View view) {
 
-        EditText editTextNumberSigned = findViewById(R.id.editTextNumberSigned);
-        Switch intervalIsEnable = findViewById(R.id.switch1);
+        Switch intervalIsEnable = findViewById(R.id.main_switch);
 
         if (editTextNumberSigned.getText().length() == 0) {
             editTextNumberSigned.setError("Campo vazio");
+            return;
+        }
+
+        if (Integer.valueOf(editTextNumberSigned.getText().toString()) == 0) {
+            editTextNumberSigned.setError("Insira um valor maior que 0");
             return;
         }
 
