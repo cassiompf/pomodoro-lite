@@ -5,10 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,7 +50,7 @@ public class CountDownTimer extends AppCompatActivity {
 
             if (intent != null) {
                 Bundle bundle = intent.getExtras();
-//              timeConfigured = bundle.getInt("tempo") * 60 * 1000L;
+                timeConfigured = bundle.getInt("tempo") * 60 * 1000L;
                 intervalo = bundle.getBoolean("intervalo");
 
                 if (intervalo == false) {
@@ -91,12 +96,12 @@ public class CountDownTimer extends AppCompatActivity {
                         timer = new MyCountDownTimer(this, textViewUpdate, timeConfigured, 1000L, Task.POMODORO.getValor());
                         timer.start();
                     } else if (nextTask.equals(Task.DESCANSO.getValor())) {
-                        //                    long time = 5 * 60 * 1000L;
-                        //                    if (pomodoros >= 4) {
-                        //                        time = 10 * 60 * 1000L;
-                        //                        pomodoros = 0;
-                        //                    }
-                        long time = 3 * 1000L;
+                        long time = 5 * 60 * 1000L;
+                        if (pomodoros >= 4) {
+                            time = 10 * 60 * 1000L;
+                            pomodoros = 0;
+                        }
+//                        long time = 3 * 1000L;
                         timer = new MyCountDownTimer(this, textViewUpdate, time, 1000L, Task.DESCANSO.getValor());
                         timer.start();
                     }
@@ -107,25 +112,27 @@ public class CountDownTimer extends AppCompatActivity {
         }
     }
 
-    public void createNotification() {
+    public void notificationPomodoroFinished() {
 
-        // Create an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent();
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, resultIntent, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel1");
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Pomodoro Finalizado")
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Pomodoro")
-                .setContentText("Um pomodoro foi finalizado!")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Clique para iniciar o modo intervalo de descanso."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+        builder.setSmallIcon(R.drawable.ic_cronometro);
+        builder.setContentTitle("Pomodoro");
+        builder.setContentText("Um pomodoro foi finalizado!");
+        builder.setStyle(new NotificationCompat.BigTextStyle()
+                .bigText("Clique para iniciar o modo intervalo de descanso."));
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setCategory(NotificationCompat.CATEGORY_ALARM);
+        builder.setDefaults(Notification.DEFAULT_LIGHTS);
+
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Ringtone ringtone = RingtoneManager.getRingtone(this, sound);
+        ringtone.play();
+
+        long[] pattern = {0, 1000};//Vibra durante 1000 milisegundos
+        builder.setVibrate(pattern);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
         // notificationId is a unique int for each notification that you must define
         notificationManager.notify(1, builder.build());
     }
@@ -136,8 +143,21 @@ public class CountDownTimer extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.name_notification);
             String description = getString(R.string.desc_notification);
-            NotificationChannel channel = new NotificationChannel("Pomodoro Finalizado", name, NotificationManager.IMPORTANCE_DEFAULT);
+
+            NotificationChannel channel = new NotificationChannel(
+                    "channel1",
+                    name,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+
             channel.setDescription(description);
+            channel.enableVibration(true);
+            AudioAttributes attributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            channel.setSound(sound, attributes);
+
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);

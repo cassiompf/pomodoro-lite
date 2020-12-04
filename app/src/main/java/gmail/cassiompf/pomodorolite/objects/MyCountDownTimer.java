@@ -56,7 +56,7 @@ public class MyCountDownTimer extends CountDownTimer {
 
         if (currentTask.equals(Task.POMODORO.getValor())) {
             countDownTimer.addPomodoros();
-            countDownTimer.createNotification();
+            countDownTimer.notificationPomodoroFinished();
         }
 
         if (countDownTimer.isActive()) {
